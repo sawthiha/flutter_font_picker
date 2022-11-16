@@ -15,13 +15,13 @@ import 'font_search.dart';
 class FontPickerUI extends StatefulWidget {
   final List<String> googleFonts;
   final ValueChanged<PickerFont> onFontChanged;
-  String initialFontFamily;
+  final String initialFontFamily;
   final bool showFontInfo;
   final bool showInDialog;
   final int recentsCount;
   final String lang;
 
-  FontPickerUI({
+  const FontPickerUI({
     super.key,
     this.googleFonts = googleFontsList,
     this.showFontInfo = true,
@@ -45,10 +45,13 @@ class _FontPickerUIState extends State<FontPickerUI> {
   FontStyle _selectedFontStyle = FontStyle.normal;
   String _selectedFontLanguage = 'all';
 
+  late String initialFontFamily;
+
   @override
   void initState() {
     _prepareShownFonts();
     super.initState();
+    initialFontFamily = widget.initialFontFamily;
   }
 
   Future _prepareShownFonts() async {
@@ -69,10 +72,10 @@ class _FontPickerUIState extends State<FontPickerUI> {
               .map((fontFamily) => PickerFont(fontFamily: fontFamily))
               .toList();
       _shownFonts = List.from(_allFonts);
-      if (!supportedFonts.contains(widget.initialFontFamily)) {
-        widget.initialFontFamily = 'Roboto';
+      if (!supportedFonts.contains(initialFontFamily)) {
+        initialFontFamily = 'Roboto';
       }
-      _selectedFontFamily = widget.initialFontFamily;
+      _selectedFontFamily = initialFontFamily;
     });
   }
 
